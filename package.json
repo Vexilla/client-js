@@ -1,12 +1,12 @@
 {
   "name": "@vexilla/client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A client for the Vexilla feature flag system",
   "main": "dist/client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
-    "postinstall": "npm run compile"
+    "prepare": "npm run compile"
   },
   "author": {
     "name": "Chris Griffing",
@@ -20,5 +20,8 @@
   },
   "dependencies": {
     "axios": "^0.21.0"
-  }
+  },
+  "files": [
+    "dist/**/*"
+  ]
 }
