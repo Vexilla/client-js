@@ -43,14 +43,18 @@ export class VexillaClient {
   }
 
   async getFlags(fileName: string) {
-    const flags: any = await axios.get(`${this.baseUrl}/${fileName}`);
-
+    const flagsResponse: any = await axios.get(`${this.baseUrl}/${fileName}`);
+    const flags = flagsResponse.data;
     this.flags = flags[this.environment].features;
 
     return this;
   }
 
   should(flagName: string, groupName = "untagged") {
+    if (!this.flags) {
+      return false;
+    }
+
     let flag = this.flags[groupName][flagName];
 
     let _should = false;
