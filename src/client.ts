@@ -45,7 +45,7 @@ export class VexillaClient {
   async getFlags(fileName: string) {
     const flagsResponse: any = await axios.get(`${this.baseUrl}/${fileName}`);
     const flags = flagsResponse.data;
-    this.flags = flags.environments[this.environment].features;
+    this.flags = flags.environments[this.environment];
 
     return this;
   }
