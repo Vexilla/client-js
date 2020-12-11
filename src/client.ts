@@ -50,8 +50,8 @@ export class VexillaClient {
     return this;
   }
 
-  should(flags: VexillaFeatureSet, flagName: string, groupName = "untagged") {
-    let flag = flags[groupName][flagName];
+  should(flagName: string, groupName = "untagged") {
+    let flag = this.flags[groupName][flagName];
 
     let _should = false;
     switch (flag.type) {
