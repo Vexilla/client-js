@@ -1,4 +1,5 @@
 import axios from "axios";
+import Hasher from "./hasher";
 
 enum VexillaFeatureType {
   TOGGLE = "toggle",
@@ -13,6 +14,7 @@ export interface VexillaToggleFeature {
 export interface VexillaGradualFeature {
   type: VexillaFeatureType.GRADUAL;
   value: number;
+  seed: number;
 }
 
 export interface VexillaFeatureSet {
@@ -32,7 +34,7 @@ export interface VexillaClientConfig {
 export class VexillaClient {
   private baseUrl: string;
   private environment: string;
-  private customInstanceHash: string;
+  private customInstanceHash = "";
 
   flags: VexillaFeatureSet;
 
@@ -64,8 +66,8 @@ export class VexillaClient {
         break;
 
       case VexillaFeatureType.GRADUAL:
-        flag = flag as VexillaToggleFeature;
-        _should = this.getInstancePercentile() <= flag.value;
+        flag = flag as VexillaGradualFeature;
+        _should = this.getInstancePercentile(flag.seed) <= flag.value;
         break;
 
       default:
@@ -75,16 +77,21 @@ export class VexillaClient {
     return _should;
   }
 
-  private getInstancePercentile() {
-    let instanceHash = "42";
-    if (this.customInstanceHash) {
-      instanceHash = this.customInstanceHash;
+  private getInstancePercentile(seed: number) {
+    if (seed <= 0 || seed > 1) {
+      throw new Error(
+        "seed must be a number value greater than 0 and less than or equal to 1"
+      );
     }
 
-    return this.magicInstanceHashingFunction(instanceHash);
-  }
+    if (!this.customInstanceHash) {
+      throw new Error(
+        "customInstanceHash config must be defined when using 'gradual' Feature Types"
+      );
+    }
 
-  private magicInstanceHashingFunction(instanceHash: string): number {
-    return 42;
+    const hasher = new Hasher(seed);
+
+    return hasher.hashString(this.customInstanceHash);
   }
 }
