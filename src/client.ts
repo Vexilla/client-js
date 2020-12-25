@@ -18,8 +18,15 @@ export interface VexillaGradualFeature {
   seed: number;
 }
 
+export interface VexillaSelectiveFeature {
+  type: VexillaFeatureType.SELECTIVE;
+}
+
 export interface VexillaFeatureSet {
-  [key: string]: VexillaToggleFeature | VexillaGradualFeature;
+  [key: string]:
+    | VexillaToggleFeature
+    | VexillaGradualFeature
+    | VexillaSelectiveFeature;
 }
 
 export interface VexillaEnvironment {
