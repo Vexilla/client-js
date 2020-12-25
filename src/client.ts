@@ -1,9 +1,10 @@
 import axios from "axios";
 import Hasher from "./hasher";
 
-enum VexillaFeatureType {
+export enum VexillaFeatureType {
   TOGGLE = "toggle",
   GRADUAL = "gradual",
+  SELECTIVE = "selective",
 }
 
 export interface VexillaToggleFeature {

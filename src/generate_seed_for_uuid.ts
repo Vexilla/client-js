@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import Hasher from "./hasher";
 
-let uuid = "b7e91cc5-ec76-4ec3-9c1c-075032a13a1a";
+let uuid = "8f458330-32f6-486e-8642-f5978a361ed7";
 
 let workingSeed: number;
 let nonWorkingSeed: number;
