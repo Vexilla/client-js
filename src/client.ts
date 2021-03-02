@@ -33,6 +33,10 @@ export interface VexillaEnvironment {
   [key: string]: VexillaFeatureSet;
 }
 
+export interface VexillaFlags {
+  [key: string]: VexillaEnvironment;
+}
+
 export interface VexillaClientConfig {
   baseUrl: string;
   environment: string;
@@ -44,7 +48,7 @@ export class VexillaClient {
   private environment: string;
   private customInstanceHash = "";
 
-  flags: VexillaFeatureSet;
+  private flags: VexillaFlags;
 
   constructor(config: VexillaClientConfig) {
     this.baseUrl = config.baseUrl;
@@ -54,10 +58,11 @@ export class VexillaClient {
 
   async getFlags(fileName: string) {
     const flagsResponse: any = await axios.get(`${this.baseUrl}/${fileName}`);
-    const flags = flagsResponse.data;
-    this.flags = flags.environments[this.environment];
+    return flagsResponse.data;
+  }
 
-    return this;
+  setFlags(flags: VexillaFlags) {
+    this.flags = flags;
   }
 
   should(flagName: string, groupName = "untagged") {
@@ -65,7 +70,7 @@ export class VexillaClient {
       return false;
     }
 
-    let flag = this.flags[groupName][flagName];
+    let flag = this.flags[this.environment][groupName][flagName];
 
     let _should = false;
     switch (flag.type) {
@@ -74,6 +79,19 @@ export class VexillaClient {
         break;
 
       case VexillaFeatureType.GRADUAL:
+        if (flag.seed <= 0 || flag.seed > 1) {
+          console.error(
+            "seed must be a number value greater than 0 and less than or equal to 1"
+          );
+          return false;
+        }
+
+        if (!this.customInstanceHash) {
+          console.error(
+            "customInstanceHash config must be defined when using 'gradual' Feature Types"
+          );
+          return false;
+        }
         flag = flag as VexillaGradualFeature;
         _should = this.getInstancePercentile(flag.seed) <= flag.value;
         break;
@@ -86,20 +104,7 @@ export class VexillaClient {
   }
 
   private getInstancePercentile(seed: number) {
-    if (seed <= 0 || seed > 1) {
-      throw new Error(
-        "seed must be a number value greater than 0 and less than or equal to 1"
-      );
-    }
-
-    if (!this.customInstanceHash) {
-      throw new Error(
-        "customInstanceHash config must be defined when using 'gradual' Feature Types"
-      );
-    }
-
     const hasher = new Hasher(seed);
-
     return hasher.hashString(this.customInstanceHash);
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@vexilla/client",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A client for the Vexilla feature flag system",
   "main": "dist/client.js",
   "scripts": {
@@ -21,7 +21,8 @@
   "dependencies": {
     "@types/node": "^14.14.13",
     "axios": "^0.21.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "xxhashjs": "^0.2.2"
   },
   "files": [
     "dist/**/*"
