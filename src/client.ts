@@ -70,7 +70,17 @@ export class VexillaClient {
       return false;
     }
 
-    let flag = this.flags[this.environment][groupName][flagName];
+    let flag = this.flags[this.environment]?.[groupName]?.[flagName];
+
+    if (!flag) {
+      console.error(
+        "flag is undefined for: ",
+        this.environment,
+        groupName,
+        flagName
+      );
+      return false;
+    }
 
     let _should = false;
     switch (flag.type) {
