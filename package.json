@@ -1,10 +1,10 @@
 {
   "name": "@vexilla/client",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "A client for the Vexilla feature flag system",
   "main": "dist/client.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node dist/test_client.js",
     "compile": "tsc",
     "prepare": "npm run compile"
   },
@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "husky": "^4.3.8",
     "ts-loader": "^8.0.11",
     "typescript": "^4.1.2"
   },
@@ -26,5 +27,10 @@
   },
   "files": [
     "dist/**/*"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run compile && npm run test"
+    }
+  }
 }

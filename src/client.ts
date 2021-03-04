@@ -70,7 +70,7 @@ export class VexillaClient {
       return false;
     }
 
-    let flag = this.flags["environments"][this.environment]?.[groupName]?.[
+    let flag = this.flags["environments"]?.[this.environment]?.[groupName]?.[
       flagName
     ];
 
