@@ -1,4 +1,3 @@
-import axios from "axios";
 import Hasher from "./hasher";
 
 export enum VexillaFeatureType {
@@ -44,11 +43,11 @@ export interface VexillaClientConfig {
 }
 
 export class VexillaClient {
-  private baseUrl: string;
-  private environment: string;
-  private customInstanceHash = "";
+  protected baseUrl: string;
+  protected environment: string;
+  protected customInstanceHash = "";
 
-  private flags: VexillaFlags;
+  protected flags: VexillaFlags;
 
   constructor(config: VexillaClientConfig) {
     this.baseUrl = config.baseUrl;
@@ -56,9 +55,9 @@ export class VexillaClient {
     this.customInstanceHash = config.customInstanceHash;
   }
 
-  async getFlags(fileName: string) {
-    const flagsResponse: any = await axios.get(`${this.baseUrl}/${fileName}`);
-    return flagsResponse.data;
+  async getFlags(fileName: string, fetchHook: (url: string) => Promise<any>) {
+    const flagsResponse: any = await fetchHook(`${this.baseUrl}/${fileName}`);
+    return flagsResponse;
   }
 
   setFlags(flags: VexillaFlags) {
@@ -70,9 +69,8 @@ export class VexillaClient {
       return false;
     }
 
-    let flag = this.flags["environments"]?.[this.environment]?.[groupName]?.[
-      flagName
-    ];
+    let flag =
+      this.flags["environments"]?.[this.environment]?.[groupName]?.[flagName];
 
     if (!flag) {
       console.error(

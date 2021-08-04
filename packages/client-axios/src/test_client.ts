@@ -1,5 +1,4 @@
 import { VexillaClient } from "./client";
-import axios from "axios";
 
 (async () => {
   let uuid = "b7e91cc5-ec76-4ec3-9c1c-075032a13a1a";
@@ -11,10 +10,7 @@ import axios from "axios";
     customInstanceHash: uuid,
   });
 
-  const flags = await client.getFlags("features.json",async (url: string) => {
-    const response = await axios.get(url);
-    return response.data;
-  });
+  const flags = await client.getFlags("features.json");
 
   client.setFlags(flags);
 

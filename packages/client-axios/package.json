@@ -1,7 +1,7 @@
 {
-  "name": "@vexilla/client",
-  "version": "0.0.17",
-  "description": "A client for the Vexilla feature flag system",
+  "name": "@vexilla/client-axios",
+  "version": "0.0.1",
+  "description": "An axios based client for the Vexilla feature flag system",
   "main": "dist/client.js",
   "scripts": {
     "test": "node dist/test_client.js",
@@ -15,13 +15,14 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^14.14.13",
-    "axios": "^0.21.0",
     "husky": "^4.3.8",
     "ts-loader": "^8.0.11",
     "typescript": "^4.1.2"
   },
   "dependencies": {
+    "@types/node": "^14.14.13",
+    "@vexilla/client": "^0.0.16",
+    "axios": "^0.21.0",
     "uuid": "^8.3.2",
     "xxhashjs": "^0.2.2"
   },

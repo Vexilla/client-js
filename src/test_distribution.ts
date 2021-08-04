@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import Hasher from "./hasher";
+const xxHash = require("xxhashjs");
 
 let getRandomBytes = (typeof self !== "undefined" &&
   (self as any) &&
@@ -22,7 +23,9 @@ let getRandomBytes = (typeof self !== "undefined" &&
       return require("crypto").randomBytes;
     })();
 
-const hasher = new Hasher(0.43);
+// const hasher = new Hasher(0.43);
+
+const hasher = new Hasher(Math.random());
 
 const ranges = [
   {
@@ -56,18 +59,17 @@ const ranges = [
   },
 ];
 
-const iterationCount = 1000000;
+const iterationCount = 100000;
 
 for (let i = 0; i < iterationCount; i++) {
   const randomSeed = getRandomBytes(16);
 
   // console.log({ randomSeed });
-  const id = uuidv4({
-    random: randomSeed,
-  });
+  // const id = uuidv4({
+  //   random: randomSeed,
+  // });
 
-  // console.log({ id });
-  const hash = hasher.hashString(id);
+  const hash = hasher.hashString(xxHash.h32(i + "", 0.43).toString(16));
 
   ranges.map((range) => {
     if (hash >= range.min && hash < range.max) {
@@ -85,3 +87,7 @@ ranges.map((range) => {
 
   console.log(`Range ${range.min}-${range.max} ${bar} ${range.value}`);
 });
+
+// function reset() {
+
+// }
