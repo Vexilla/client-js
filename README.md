@@ -1,3 +1,7 @@
+# Warning: Repo Archived
+
+**This repo is archived. The latest functionality and newest versions of this SDK will be located in the main monorepo: https://github.com/vexilla/vexilla/clients/js**
+
 # Vexilla Client - JS/TS
 
 This is the JS/TS client library for Vexilla, a static file based feature flag system.
